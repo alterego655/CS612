@@ -86,12 +86,9 @@ then # Debug the given test
 	if [[ "$PINTOS_DEBUG" -ne 2 ]]
 	then # Run the debugger in the same terminal that invoked this script
 		test_output=$(mktemp)
-		project_directory=${PWD%/*}
-		project_directory=${project_directory##*/}
-		if [[ "$project_directory" == 'threads' ]]
+		if make -n "${test_path}.output" 2>&1 | grep -q -- '--bochs'
 		then
-			# The tests for the 'threads' project (Project 2) use bochs instead
-			# of qemu. Bochs is very unhappy when stdin is closed (it will
+			# Bochs is very unhappy when stdin is closed (it will
 			# refuse to connect to the debugger), so we have to handle this as
 			# a special case.
 			make "${test_path}.output" > "$test_output" 2>&1 &

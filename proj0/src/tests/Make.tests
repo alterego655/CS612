@@ -64,7 +64,7 @@ $(foreach test,$(TESTS),$(eval $(test).result: $(test).output $(test).ck))
 VERBOSE =
 
 TESTCMD = pintos -v -k $(if ${PINTOS_DEBUG},--gdb,-T $(TIMEOUT))
-TESTCMD += $(SIMULATOR)
+TESTCMD += $(or ${FORCE_SIMULATOR},$(SIMULATOR))
 TESTCMD += $(PINTOSOPTS)
 ifeq ($(filter userprog, $(KERNEL_SUBDIRS)), userprog)
 TESTCMD += $(FILESYSSOURCE)
